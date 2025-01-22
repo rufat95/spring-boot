@@ -55,15 +55,16 @@ public class UserService {
         this.userRepositories.deleteById(userId);
     }
     // This is log in function
-    public void logIn(User user) {
+    public User logIn(User user) {
         User user1 = userRepositories.findByUsername(user.getUsername());
-        if (user1 != null && user.getUsername().equals(user1.getUsername())) {
+        if (user1 != null && (user.getUsername().equals(user1.getUsername())) &&
+                (user.getPassword().equals(user1.getPassword()))) {
             userRepos.setUserId(user1.getUser_id());
             System.out.println(userRepos.getUserId());
+            return user1;
         } else {
-            System.out.println("User can not found.");
+            return null;
         }
     }
-
 
 }

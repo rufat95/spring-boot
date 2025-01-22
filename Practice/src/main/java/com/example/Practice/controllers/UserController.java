@@ -2,13 +2,13 @@ package com.example.Practice.controllers;
 
 import com.example.Practice.entities.User;
 import com.example.Practice.services.UserService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/v1/users")
 @RequiredArgsConstructor
@@ -25,14 +25,19 @@ public class UserController {
         return userService.getOneUser(user_id);
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public void createUser(@RequestBody User user){
         userService.save(user);
     }
 
-    @GetMapping("/login")
-    public void logIn(User user){
-        userService.logIn(user);
+    @PostMapping("/login")
+    public String logIn(@RequestBody User user) {
+        User user1 = userService.logIn(user);
+        if (user1 != null) {
+            return "Login successful! User ID: " + user1.getUser_id() + " " + user1.getUsername();
+        } else {
+            return "User not found!";
+        }
     }
 
     @PutMapping("/{user_id}")
