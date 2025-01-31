@@ -38,9 +38,14 @@ public class UserController {
         userService.deleteUser(userId);
     }
 
-    @GetMapping("/{userEmail}")
+    @GetMapping("/findByEmail/{userEmail}")
     public List<User> getUsers(@RequestParam(required = false) String userEmail){
         return userService.getUsers(userEmail);
+    }
+
+    @GetMapping("/{id}")
+    public User getUsers(@PathVariable Long id){
+        return userService.getUserFindById(id);
     }
 
     @PostMapping("/login")

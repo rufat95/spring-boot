@@ -1,5 +1,7 @@
 package az.supertodo.Todo.services;
 
+import az.supertodo.Todo.Enums.StatusCode;
+import az.supertodo.Todo.exception.BaseException;
 import az.supertodo.Todo.mappers.UserMapper;
 import az.supertodo.Todo.requests.UserLoginRequest;
 import az.supertodo.Todo.responses.UserLoginResponse;
@@ -13,6 +15,7 @@ import az.supertodo.Todo.responses.UserCreateResponse;
 import az.supertodo.Todo.responses.UserUpdateResponse;
 import az.supertodo.Todo.usefull.UseFullFunctions;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,6 +62,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public User getUserFindById(Long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new BaseException(HttpStatus.BAD_REQUEST, StatusCode.USER_NOT_FOUND));
+    }
+
     // This is log in function
     public SuccessResult<UserLoginResponse> logIn(UserLoginRequest userLoginRequest) {
         User user = userRepository.findByEmail(userLoginRequest.getEmail());
@@ -74,7 +82,7 @@ public class UserService {
 
             return new SuccessResult<>(userLoginResponse, "Successfully log in.");
         } else {
-            throw new RuntimeException("That user not found !");
+            throw new BaseException(HttpStatus.BAD_REQUEST, StatusCode.USER_NOT_FOUND);
         }
     }
 

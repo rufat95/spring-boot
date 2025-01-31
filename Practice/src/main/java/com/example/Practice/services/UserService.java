@@ -5,6 +5,7 @@ import com.example.Practice.repos.UserRepos;
 import com.example.Practice.repos.UserRepositories;
 import com.example.Practice.worthless.WorthlessFunctions;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class UserService {
         if(userRepositories.existsByUsername(user.getUsername()))
             throw new RuntimeException("This username exist");
         if(!worthlessFunctions.isValidPassword(user.getPassword()))
-            throw new RuntimeException("Password in not valid");
+            throw new RuntimeException("Password must be big character number other character.");
 
         this.userRepositories.save(user);
     }

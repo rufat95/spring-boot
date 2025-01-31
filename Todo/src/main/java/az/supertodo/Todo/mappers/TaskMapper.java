@@ -3,6 +3,7 @@ package az.supertodo.Todo.mappers;
 import az.supertodo.Todo.entities.Task;
 import az.supertodo.Todo.requests.TaskCreateRequest;
 import az.supertodo.Todo.responses.TaskCreateResponse;
+import az.supertodo.Todo.responses.TaskUpdateResponse;
 
 public interface TaskMapper {
 
@@ -23,4 +24,18 @@ public interface TaskMapper {
                 .priority(task.getPriority())
                 .build();
     }
+
+    static TaskUpdateResponse updateTaskResponse(Task task){
+        return TaskUpdateResponse.builder()
+                .id(task.getId())
+                .userId(task.getUser().getId())
+                .taskName(task.getName())
+                .taskEnum(task.getTaskEnum())
+                .priority(task.getPriority())
+                .build();
+    }
+
+
+
+
 }

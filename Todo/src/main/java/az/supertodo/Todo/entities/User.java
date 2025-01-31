@@ -1,15 +1,15 @@
 package az.supertodo.Todo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -27,6 +27,10 @@ public class User {
 
     @Email
     private String email;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Task> tasks;
 
     @CreationTimestamp
     private LocalDateTime createTime;
