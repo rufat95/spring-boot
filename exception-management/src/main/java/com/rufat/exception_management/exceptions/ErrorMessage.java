@@ -17,7 +17,7 @@ public class ErrorMessage {
         StringBuilder builder = new StringBuilder();
         builder.append(messageType.getMessage());
         if(ofStatic != null){
-            builder.append("Error : " + ofStatic);
+            builder.append("Error : ").append(ofStatic);
         }
         return builder.toString();
     }
