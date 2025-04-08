@@ -1,7 +1,6 @@
 package com.file.file.controllers;
 
 import com.file.file.entities.User;
-import com.file.file.requests.UserRequest;
 import com.file.file.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

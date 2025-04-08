@@ -1,5 +1,6 @@
 package com.ecommerce.Ecommerce.requests;
 
+import com.ecommerce.Ecommerce.enums.ProductBulk;
 import com.ecommerce.Ecommerce.enums.ProductCategory;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -24,10 +25,7 @@ public class ProductCreateRequest {
     private String brand;
 
     @NotNull(message = "Stock can not be null !")
-    @NotEmpty(message = "Stock can not be empty !")
-    @NotBlank(message = "Stock can not contain blank !")
     @Digits(message="Stock should contain 4 digits and numeric format.", fraction = 0, integer = 4)
-    @Size(min = 1, max = 4, message = "Stock must be minimum 1 maximum 4 number.")
     private Integer stock;
 
     @NotEmpty(message = "Description can not be empty !")
@@ -35,22 +33,18 @@ public class ProductCreateRequest {
     private String description;
 
     @NotNull(message = "Sale price can not be null !")
-    @NotEmpty(message = "Sale price can not be empty !")
-    @NotBlank(message = "Sale price can not contain blank !")
     @Digits(message="Sale price should contain 4 digits and numeric format.",
             fraction = 2, integer = 3)
     private BigDecimal salePrice;
 
     @NotNull(message = "Purchase price can not be null !")
-    @NotEmpty(message = "Purchase price can not be empty !")
-    @NotBlank(message = "Purchase price can not contain blank !")
     @Digits(message="Purchase price should contain 4 digits and numeric format.",
             fraction = 2, integer = 3)
     private BigDecimal purchasePrice;
 
     @NotNull(message = "Category can not be null !")
-    @NotEmpty(message = "Category can not be empty !")
-    @NotBlank(message = "Category can not contain blank !")
     private ProductCategory productCategory;
 
+    @NotNull(message = "Size can not be null !")
+    private ProductBulk productBulk;
 }

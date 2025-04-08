@@ -1,4 +1,4 @@
-package com.file.file;
+package com.file.file.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.file.file.utils;
 
-import com.file.file.StatusCode;
+import com.file.file.enums.StatusCode;
 import com.file.file.exceptions.BaseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

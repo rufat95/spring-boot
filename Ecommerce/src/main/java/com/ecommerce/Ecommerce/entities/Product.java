@@ -1,9 +1,9 @@
 package com.ecommerce.Ecommerce.entities;
 
+import com.ecommerce.Ecommerce.enums.ProductBulk;
 import com.ecommerce.Ecommerce.enums.ProductCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
@@ -41,7 +40,12 @@ public class Product {
     private BigDecimal purchasePrice;
 
     @Column(name = "category")
+    @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
+
+    @Column(name = "size")
+    @Enumerated(EnumType.STRING)
+    private ProductBulk productBulk;
 
     @Column(name = "image_1")
     private String image1;

@@ -1,6 +1,6 @@
 package com.file.file.exceptions;
 
-import com.file.file.StatusCode;
+import com.file.file.enums.StatusCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
