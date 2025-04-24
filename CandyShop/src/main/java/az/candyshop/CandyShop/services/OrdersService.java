@@ -16,8 +16,11 @@ import az.candyshop.CandyShop.responses.OrderResponse.OrderResponse;
 import az.candyshop.CandyShop.result.exception.BaseException;
 import az.candyshop.CandyShop.result.success.SuccessDataResult;
 import az.candyshop.CandyShop.result.success.SuccessResult;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +29,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 @Service
+@EnableScheduling
 @RequiredArgsConstructor
 public class OrdersService {
     private final OrdersRepository ordersRepository;
@@ -33,6 +37,12 @@ public class OrdersService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final OIService oiService;
+
+    @Scheduled(cron = "0 20 2 * * ?")
+    public void deleteOffOrders(){
+        List<Orders> orders = ordersRepository.findByOrderStatus(OrderStatus.OFF);
+        ordersRepository.deleteAll(orders);
+    }
 
     // Put api for cancel order
     public SuccessResult cancelOrder(Long id) {
@@ -125,9 +135,13 @@ public class OrdersService {
 
     // Post api for create new order
     @Transactional
-    public SuccessResult createOrder(OrderCreateRequest orderCreateRequest) {
+    public SuccessResult createOrder(@Valid OrderCreateRequest orderCreateRequest) {
         User user = userRepository.findById(orderCreateRequest.getUserId()).orElseThrow(() ->
                 new BaseException(HttpStatus.NOT_FOUND, StatusCode.USER_LOG_IN));
+
+        if(orderCreateRequest.getProducts().isEmpty()){
+            throw new BaseException(HttpStatus.BAD_REQUEST, StatusCode.ORDER_ITEMS_NOT_ZERO);
+        }
 
         Orders orders = orderSave(orderCreateRequest, user);
         createOrderItems(orderCreateRequest, orders);
@@ -153,6 +167,12 @@ public class OrdersService {
                     Product product = productRepository.findById(item.getId())
                             .orElseThrow(() -> new BaseException(
                                     HttpStatus.NOT_FOUND, StatusCode.PRODUCT_NOT_FOUND));
+
+                    if(item.getQuantity() > product.getStock()){
+                        throw new BaseException(
+                                HttpStatus.BAD_REQUEST,
+                                StatusCode.ORDER_PRODUCT_QUANTITY_GREATER);
+                    }
 
                     OrderItems orderItem = new OrderItems();
                     orderItem.setOrder(savedOrder);

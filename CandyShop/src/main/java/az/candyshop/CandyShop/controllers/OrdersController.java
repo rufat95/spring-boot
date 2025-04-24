@@ -1,10 +1,13 @@
 package az.candyshop.CandyShop.controllers;
 
+import az.candyshop.CandyShop.entities.Orders;
+import az.candyshop.CandyShop.enums.OrderStatus;
 import az.candyshop.CandyShop.requests.OrderRequests.OrderCreateRequest;
 import az.candyshop.CandyShop.responses.OrderResponse.OrderResponse;
 import az.candyshop.CandyShop.result.success.SuccessDataResult;
 import az.candyshop.CandyShop.result.success.SuccessResult;
 import az.candyshop.CandyShop.services.OrdersService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +42,7 @@ public class OrdersController {
 
     @PostMapping("/create_order")
     public SuccessResult createOrder(
-            @RequestBody OrderCreateRequest orderCreateRequest){
+            @RequestBody @Valid OrderCreateRequest orderCreateRequest){
         return ordersService.createOrder(orderCreateRequest);
     }
 }

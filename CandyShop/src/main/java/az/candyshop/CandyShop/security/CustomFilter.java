@@ -38,7 +38,6 @@ public class CustomFilter extends OncePerRequestFilter {
                                 (userDetails, null, userDetails.getAuthorities()));
             }
         }
-
         filterChain.doFilter(request, response);
     }
 }

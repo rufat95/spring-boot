@@ -4,11 +4,11 @@ import az.candyshop.CandyShop.enums.StatusCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.method.MethodValidationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,5 +40,14 @@ public class GlobalExceptionHandler {
                         StatusCode.ANY_ERROR.getMessage(),
                         validations
                 ));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResult> handleAccessDeniedException(AccessDeniedException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                new ErrorResult(StatusCode.PERMIT_TOKEN.getCode(),
+                                StatusCode.PERMIT_TOKEN.getMessage())
+        );
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-
+@Component
 @RequiredArgsConstructor
 public class MailServer {
     private final JavaMailSender mailSender;

@@ -11,6 +11,4 @@ public class ErrorDataResult {
     private Integer statusCode;
     private String message;
     private List<String> validations;
-
-
 }

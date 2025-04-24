@@ -11,6 +11,7 @@ import az.candyshop.CandyShop.result.PaginationResponse;
 import az.candyshop.CandyShop.result.exception.BaseException;
 import az.candyshop.CandyShop.result.success.SuccessDataResult;
 import az.candyshop.CandyShop.result.success.SuccessPageDataset;
+import az.candyshop.CandyShop.result.success.SuccessResult;
 import az.candyshop.CandyShop.utils.ImageUploadValidations;
 import az.candyshop.CandyShop.utils.VideoUploadValidations;
 import jakarta.validation.Valid;
@@ -40,6 +41,10 @@ public class ProductService {
         Product product = productRepository.findByName(productCreateRequest.getName());
         if (product != null){
             throw new BaseException(HttpStatus.BAD_REQUEST, StatusCode.PRODUCT_UNIQUE);
+        }
+
+        if(productCreateRequest.getSellingPrice().compareTo(productCreateRequest.getOriginPrice()) < 0){
+            throw new BaseException(HttpStatus.BAD_REQUEST, StatusCode.PRODUCT_PRICE);
         }
 
         return new SuccessDataResult<>("Product created successfully.",
@@ -103,6 +108,15 @@ public class ProductService {
         product.setStock(resultStock);
         return new SuccessDataResult<>("Product stock are increased successfully",
                 productMappers.changeProductToProductResponse(productRepository.save(product)));
+    }
+
+    public SuccessResult deleteProduct(String name) {
+        Product product = productRepository.findByName(name);
+        if (product == null){
+            throw new BaseException(HttpStatus.NOT_FOUND, StatusCode.PRODUCT_NOT_FOUND);
+        }
+        productRepository.delete(product);
+        return new SuccessResult("Product deleted successfully.");
     }
 }
 

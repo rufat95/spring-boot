@@ -55,14 +55,14 @@ public class UserController {
         return userService.getAllUserList(page, size, sortBy, sortDirection);
     }
 
-    @GetMapping("/users/{userRole}")
+    @GetMapping("/find_users/{userRole}")
     public SuccessDataResult<List<UserResponse>> getAllUserRole(
             @RequestParam(defaultValue = "USER") UserRole userRole
     ){
         return userService.getAllUserRole(userRole);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete_user/{id}")
     public SuccessResult deleteUser(@PathVariable Long id){
         return userService.deleteUser(id);
     }

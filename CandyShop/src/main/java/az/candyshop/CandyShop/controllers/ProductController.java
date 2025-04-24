@@ -6,6 +6,7 @@ import az.candyshop.CandyShop.responses.ProductResponses.ProductCreateResponse;
 import az.candyshop.CandyShop.responses.ProductResponses.ProductResponse;
 import az.candyshop.CandyShop.result.success.SuccessDataResult;
 import az.candyshop.CandyShop.result.success.SuccessPageDataset;
+import az.candyshop.CandyShop.result.success.SuccessResult;
 import az.candyshop.CandyShop.services.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -61,5 +62,10 @@ public class ProductController {
             @RequestParam Integer increaseStock
     ){
         return productService.increaseProductStock(name, increaseStock);
+    }
+
+    @DeleteMapping("/delete_product")
+    public SuccessResult deleteProduct(String name){
+        return productService.deleteProduct(name);
     }
 }

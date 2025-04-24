@@ -13,4 +13,5 @@ public class AuthLoginResponse {
     private String email;
     private String number;
     private String token;
+    private String userImage;
 }
